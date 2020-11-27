@@ -6,8 +6,8 @@
             <div class="top">
                 <div class="top_title">
                     <strong>尚品汇欢迎您！</strong>
-                    请 <a href="javascript:;">登录</a>
-                    <a href="javascript:;">免费注册</a>
+                    请 <router-link to="/login">登录</router-link>
+                    <router-link to="/register">免费注册</router-link>
                 </div>
                 <nav class="top_nav">
                     <a href="javascript:;">我的订单</a>
@@ -24,14 +24,15 @@
         <!-- 商城logo和搜索栏区域 -->
         <div id="header_main">
             <div class="header_logo">
-                <a href="#java">
+                <router-link to="/">
                     <img src="./images/Logo.png" alt="尚品汇" />
-                    <h1>尚品汇</h1>
-                </a>
+                </router-link>
             </div>
             <form action="javascript:;" method="POST" class="header_search">
                 <input type="text" name="searchname" />
-                <button type="submit">搜索</button>
+                <router-link to="/search">
+                    <button type="submit">搜索</button>
+                </router-link>
             </form>
         </div>
     </header>
@@ -62,6 +63,9 @@ export default {
     }
     a {
         padding: 0 4px 0 8px;
+    }
+    a:link:hover {
+        color: @mainColor;
     }
     a + a {
         border-left: 1px solid #b3aeae;
@@ -99,7 +103,6 @@ export default {
         background-color: @mainColor;
         outline: none;
         border: none;
-        // cursor: pointer;
     }
 }
 </style>
