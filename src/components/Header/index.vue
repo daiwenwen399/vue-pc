@@ -30,9 +30,7 @@
             </div>
             <form action="javascript:;" method="POST" class="header_search">
                 <input type="text" name="searchname" />
-                <router-link to="/search">
-                    <button type="submit">搜索</button>
-                </router-link>
+                <button type="submit" @click="search">搜索</button>
             </form>
         </div>
     </header>
@@ -41,6 +39,11 @@
 <script>
 export default {
     name: "Header",
+    methods: {
+        search() {
+            this.$router.push("/search");
+        },
+    },
 };
 </script>
 
@@ -83,6 +86,7 @@ export default {
         height: 56px;
         margin: 25px 45px;
     }
+    // 商城头部搜索栏
     .header_search {
         margin-top: 35px;
         display: flex;
