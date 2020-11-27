@@ -1,5 +1,40 @@
 <template>
-    <div>Header...</div>
+    <!-- 商城头部 -->
+    <header>
+        <!-- 商城顶部区域 -->
+        <div id="header_top">
+            <div class="top">
+                <div class="top_title">
+                    <strong>尚品汇欢迎您！</strong>
+                    请 <a href="javascript:;">登录</a>
+                    <a href="javascript:;">免费注册</a>
+                </div>
+                <nav class="top_nav">
+                    <a href="javascript:;">我的订单</a>
+                    <a href="javascript:;">我的购物车</a>
+                    <a href="javascript:;">我的尚品汇</a>
+                    <a href="javascript:;">尚品汇会员</a>
+                    <a href="javascript:;">企业采购</a>
+                    <a href="javascript:;">关注尚品汇</a>
+                    <a href="javascript:;">合作招聘</a>
+                    <a href="javascript:;">商家后台</a>
+                </nav>
+            </div>
+        </div>
+        <!-- 商城logo和搜索栏区域 -->
+        <div id="header_main">
+            <div class="header_logo">
+                <a href="#java">
+                    <img src="./images/Logo.png" alt="尚品汇" />
+                    <h1>尚品汇</h1>
+                </a>
+            </div>
+            <form action="javascript:;" method="POST" class="header_search">
+                <input type="text" name="searchname" />
+                <button type="submit">搜索</button>
+            </form>
+        </div>
+    </header>
 </template>
 
 <script>
@@ -9,4 +44,62 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@mainColor: #e1251b;
+
+// 商城顶部
+#header_top {
+    width: 100%;
+    height: 30px;
+    min-width: 1200px;
+    background-color: #eaeaea;
+    .top {
+        width: 1200px;
+        height: 30px;
+        line-height: 30px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    a {
+        padding: 0 4px 0 8px;
+    }
+    a + a {
+        border-left: 1px solid #b3aeae;
+    }
+}
+
+#header_main {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    // 商城logo
+    .header_logo {
+        width: 175px;
+        height: 56px;
+        margin: 25px 45px;
+    }
+    .header_search {
+        margin-top: 35px;
+        display: flex;
+    }
+    input {
+        width: 490px;
+        height: 32px;
+        padding: 0 4px;
+        box-sizing: border-box;
+        border: 2px solid @mainColor;
+        outline: none;
+    }
+    button {
+        width: 68px;
+        height: 32px;
+        line-height: 32px;
+        color: #fff;
+        background-color: @mainColor;
+        outline: none;
+        border: none;
+        // cursor: pointer;
+    }
+}
 </style>
