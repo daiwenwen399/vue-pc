@@ -29,7 +29,7 @@
                 </router-link>
             </div>
             <form action="javascript:;" method="POST" class="header_search">
-                <input type="text" name="searchname" />
+                <input type="text" name="searchname" v-model="searchContent" />
                 <button type="submit" @click="search">搜索</button>
             </form>
         </div>
@@ -39,9 +39,49 @@
 <script>
 export default {
     name: "Header",
+    data() {
+        return {
+            searchContent: "",
+        };
+    },
     methods: {
         search() {
-            this.$router.push("/search");
+            const { searchContent } = this;
+            /**
+             *   使用字符串方式进行路由拼接
+             *
+                // 获得搜索的数据，判断是否要增加params参数
+                const params = this.searchContent ? `/${this.searchContent}` : "";
+                // 生成跳转的链接
+                const location = "/search" + params;
+                // 编程式导航：原因将来要做搜索功能（要发送请求）
+                this.$router.push(location);
+            */
+
+            /**
+            *   使用对象方式进行拼接
+                {
+                    path: 路由路径,
+                    query: {} 查询字符串参数
+                }
+                {
+                    name: 命名路由名称,
+                    params: {} params参数
+                    query: {} 查询字符串参数
+                }
+            */
+            const location = {
+                name: "search",
+                query: {
+                    name: "chen",
+                },
+            };
+            if (searchContent) {
+                location.params = {
+                    searchContent,
+                };
+            }
+            this.$router.push(location);
         },
     },
 };

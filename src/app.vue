@@ -1,7 +1,6 @@
 <template>
     <div>
         <Header />
-        <!-- 中间根据路由显示不同的组件 -->
         <router-view></router-view>
         <Footer />
     </div>
@@ -20,5 +19,5 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 </style>

@@ -6,6 +6,8 @@ import router from './router'
 // 引入公共样式
 import './styles/reset.css'
 import './styles/index.css'
+// 引入按需加载ui库
+import './plugins/element.js'
 
 Vue.config.productionTip = false
 
