@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "es6",	//使用的模块化规范
+        "baseUrl": ".",		//基础路径
+        "paths": {			//需要提示的路径
+            "@views/*": ["./src/views/*"],
+            "@comps/*": ["./src/components/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@assets/*": ["./src/assets/*"],
+            "@store/*": ["./src/store/*"]
+        }
+    },
+    // 排除不进行提示的文件
+    "exclude": ["node_modules"]
+}

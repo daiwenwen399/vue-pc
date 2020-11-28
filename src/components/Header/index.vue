@@ -72,9 +72,9 @@ export default {
             */
             const location = {
                 name: "search",
-                query: {
-                    name: "chen",
-                },
+                // query: {
+                //     name: "chen",
+                // },
             };
             if (searchContent) {
                 location.params = {

@@ -6,7 +6,7 @@ import Login from '../views/Login'
 import Register from '../views/Register'
 import Search from '../views/Search'
 
-// 重写push\replace方法解决报错问题
+// 重写push\replace方法解决重复点击报错问题
 const newPush = VueRouter.prototype.push;
 const newReplace = VueRouter.prototype.replace;
 
