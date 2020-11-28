@@ -1,5 +1,6 @@
 <template>
     <div id="login">
+        <button @click="clicklo">按钮</button>
         <div class="login_main">
             <div class="main">
                 <div class="login_box">
@@ -21,8 +22,21 @@
 </template>
 
 <script>
+import { reqLogin } from "@api/user";
+
 export default {
     name: "Login",
+    methods: {
+        clicklo() {
+            reqLogin("13700000000", "111111")
+                .then((res) => {
+                    console.log("res", res);
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                });
+        },
+    },
 };
 </script>
 

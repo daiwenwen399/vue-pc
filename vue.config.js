@@ -11,7 +11,17 @@ module.exports = {
                 "@utils": path.resolve(__dirname, "src/utils"),
                 "@assets": path.resolve(__dirname, "src/assets"),
                 "@store": path.resolve(__dirname, "src/store"),
-            }
-        }
-    }
-}
+                "@api": path.resolve(__dirname, "src/api"),
+            },
+        },
+    },
+    // 代理服务器解决跨域
+    devServer: {
+        proxy: {
+            "/api": {
+                target: "http://182.92.128.115",
+                changeOrigin: true, // 允许跨域
+            },
+        },
+    },
+};
