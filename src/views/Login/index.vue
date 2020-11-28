@@ -1,6 +1,5 @@
 <template>
     <div id="login">
-        <button @click="clicklo">按钮</button>
         <div class="login_main">
             <div class="main">
                 <div class="login_box">
@@ -12,7 +11,13 @@
                             <a href="##" class="active">账户登录</a>
                         </div>
                     </div>
-                    <div class="login_info"></div>
+                    <div class="login_info">
+                        <input type="text" />
+                        <input type="password" />
+                        <el-button type="danger" @click="loginBtn"
+                            >登录</el-button
+                        >
+                    </div>
                     <div class="login-footer"></div>
                 </div>
             </div>
@@ -27,8 +32,8 @@ import { reqLogin } from "@api/user";
 export default {
     name: "Login",
     methods: {
-        clicklo() {
-            reqLogin("13700000000", "111111")
+        loginBtn() {
+            reqLogin("13700000000", "1111111")
                 .then((res) => {
                     console.log("res", res);
                 })

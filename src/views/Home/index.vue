@@ -1,10 +1,17 @@
 <template>
-    <div>home...</div>
+    <div>
+        <ClassifiedNav />
+    </div>
 </template>
 
 <script>
+import ClassifiedNav from "./ClassifiedNav";
+
 export default {
     name: "Home",
+    components: {
+        ClassifiedNav,
+    },
 };
 </script>
 
