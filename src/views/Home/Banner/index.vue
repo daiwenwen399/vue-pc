@@ -1,23 +1,7 @@
 <template>
     <!-- 商城banner区 -->
     <div id="main">
-        <!-- 左侧主导航区 -->
-        <div id="main_nav">
-            <ul class="main_menu">
-                <li>
-                    <a href="javascript:;">图书、音像、数字商品</a>
-                    <div class="main_submenu">
-                        <dl class="div-after">
-                            <dt><a href="javascript:;">电子书</a></dt>
-                            <dd><a href="javascript:;">婚恋/两性</a></dd>
-                            <dd><a href="javascript:;">文学</a></dd>
-                            <dd><a href="javascript:;">经管</a></dd>
-                            <dd><a href="javascript:;">畅读VIP</a></dd>
-                        </dl>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <AllNav />
         <!-- 轮播图区 -->
         <div id="main_banner">
             <ul>
@@ -157,8 +141,13 @@
 </template>
 
 <script>
+import AllNav from "@comps/AllNav";
+
 export default {
     name: "Banner",
+    components: {
+        AllNav,
+    },
 };
 </script>
 
@@ -168,71 +157,6 @@ export default {
     height: 464px;
     margin: 0 auto;
     display: flex;
-}
-// 左侧主导航区
-#main_nav {
-    width: 210px;
-    color: #333;
-    ul {
-        position: relative;
-        height: 459px;
-        background-color: #fafafa;
-    }
-    li {
-        height: 30px;
-        line-height: 30px;
-        padding-left: 20px;
-        a {
-            color: #333;
-            font-size: 14px;
-        }
-    }
-    a:hover {
-        color: #e1251b;
-        text-decoration: underline;
-    }
-    // 隐藏导航区
-    .main_submenu {
-        width: 735px;
-        background-color: #f7f7f7;
-        border: 1px solid #ddd;
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 210px;
-    }
-    li:hover .main_submenu {
-        display: block;
-        z-index: 1;
-    }
-    dl {
-        width: 80%;
-        padding: 6px 0;
-        margin-left: 10px;
-        text-align: center;
-        display: flex;
-    }
-    dt {
-        width: 54px;
-        height: 22px;
-        line-height: 22px;
-        font-weight: bold;
-        a {
-            color: #333;
-        }
-    }
-    dd {
-        height: 14px;
-        line-height: 14px;
-        padding: 0 8px;
-        margin-top: 5px;
-        border-left: 1px solid #ccc;
-        a {
-            color: #666;
-            font-size: 12px;
-        }
-    }
 }
 // 轮播图区
 #main_banner {
