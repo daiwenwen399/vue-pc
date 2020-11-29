@@ -3,6 +3,8 @@
         <ClassifiedNav />
         <Banner />
         <RecomToday />
+        <Ranking />
+        <Like />
     </div>
 </template>
 
@@ -10,6 +12,8 @@
 import ClassifiedNav from "./ClassifiedNav";
 import Banner from "./Banner";
 import RecomToday from "./RecomToday";
+import Ranking from "./Ranking";
+import Like from "./Like";
 
 export default {
     name: "Home",
@@ -17,6 +21,8 @@ export default {
         ClassifiedNav,
         Banner,
         RecomToday,
+        Ranking,
+        Like,
     },
 };
 </script>
