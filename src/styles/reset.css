@@ -38,7 +38,7 @@ address, cite, dfn, em, var, i {
 
 /* 将斜体扶正 */
 
-b, strong {
+b {
     font-weight: normal;
 }
 

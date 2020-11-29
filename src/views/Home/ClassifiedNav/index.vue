@@ -34,7 +34,6 @@ export default {
         line-height: 46px;
         margin: 0 auto;
         display: flex;
-        justify-content: space-around;
     }
     .classified_nav_all {
         width: 210px;
