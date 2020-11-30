@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './app.vue'
 
 import router from './router'
+import store from './store'
 
 // 引入公共样式
 import './styles/reset.css'
@@ -15,4 +16,5 @@ new Vue({
     render: h => h(App),
     // 应用路由
     router,
+    store,
 }).$mount("#app")

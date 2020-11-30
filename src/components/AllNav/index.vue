@@ -34,18 +34,21 @@
 </template>
 
 <script>
-import { reqGetAllNav } from "@api/allnav";
+import { mapState, mapActions } from "vuex";
 
 export default {
     name: "AllNav",
-    data() {
-        return {
-            allNav: [],
-        };
+    computed: {
+        ...mapState({
+            allNav: (state) => state.home.allNav,
+        }),
     },
-    async mounted() {
-        const result = await reqGetAllNav();
-        this.allNav = result.slice(0, 15);
+    methods: {
+        // 函数可以直接写，注意：将来action函数名称和mutation函数名称不要重复
+        ...mapActions(["getAllNav"]),
+    },
+    mounted() {
+        this.getAllNav();
     },
 };
 </script>
