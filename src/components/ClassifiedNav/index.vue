@@ -1,10 +1,15 @@
 <template>
-    <div id="classified_nav">
+    <div id="classified_nav" @mouseleave="isSearchShow = false">
         <div class="container">
             <!-- 顶部导航 -->
             <div id="classified_topnav">
                 <ul>
-                    <li class="classified_nav_all">全部商品分类</li>
+                    <li
+                        class="classified_nav_all"
+                        @mouseenter="isSearchShow = true"
+                    >
+                        全部商品分类
+                    </li>
                     <li><a href="javascript:;">服装城</a></li>
                     <li><a href="javascript:;">美妆馆</a></li>
                     <li><a href="javascript:;">尚品汇超市</a></li>
@@ -16,58 +21,67 @@
                 </ul>
             </div>
             <!-- 全部商品导航区 -->
-            <div id="all_nav">
-                <ul class="all_menu" @click="goSearch">
-                    <li v-for="category in allNav" :key="category.categoryId">
-                        <!-- 一级分类名称 -->
-                        <!-- 使用自定义属性的方法来传递参数 -->
-                        <a
-                            href="javascript:;"
-                            :data-categoryName="category.categoryName"
-                            :data-categoryId="category.categoryId"
-                            :data-categoryType="1"
-                            >{{ category.categoryName }}</a
+            <transition name="search">
+                <div id="all_nav" v-show="isHomeShow || isSearchShow">
+                    <ul class="all_menu" @click="goSearch">
+                        <li
+                            v-for="category in allNav"
+                            :key="category.categoryId"
                         >
-                        <div class="all_submenu">
-                            <dl
-                                class="div-after"
-                                v-for="child in category.categoryChild"
-                                :key="child.categoryId"
+                            <!-- 一级分类名称 -->
+                            <!-- 使用自定义属性的方法来传递参数 -->
+                            <a
+                                href="javascript:;"
+                                :data-categoryName="category.categoryName"
+                                :data-categoryId="category.categoryId"
+                                :data-categoryType="1"
+                                >{{ category.categoryName }}</a
                             >
-                                <!-- 二级分类名称 -->
-                                <dt>
-                                    <a
-                                        href="javascript:;"
-                                        :data-categoryName="child.categoryName"
-                                        :data-categoryId="child.categoryId"
-                                        :data-categoryType="2"
-                                        >{{ child.categoryName }}</a
-                                    >
-                                </dt>
-                                <!-- 三级分类名称 -->
-                                <dd>
-                                    <em
-                                        v-for="grandChild in child.categoryChild"
-                                        :key="grandChild.categoryChild"
-                                    >
+                            <div class="all_submenu">
+                                <dl
+                                    class="div-after"
+                                    v-for="child in category.categoryChild"
+                                    :key="child.categoryId"
+                                >
+                                    <!-- 二级分类名称 -->
+                                    <dt>
                                         <a
                                             href="javascript:;"
                                             :data-categoryName="
-                                                grandChild.categoryName
+                                                child.categoryName
                                             "
-                                            :data-categoryId="
-                                                grandChild.categoryId
-                                            "
-                                            :data-categoryType="3"
-                                            >{{ grandChild.categoryName }}</a
-                                        ></em
-                                    >
-                                </dd>
-                            </dl>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                                            :data-categoryId="child.categoryId"
+                                            :data-categoryType="2"
+                                            >{{ child.categoryName }}</a
+                                        >
+                                    </dt>
+                                    <!-- 三级分类名称 -->
+                                    <dd>
+                                        <em
+                                            v-for="grandChild in child.categoryChild"
+                                            :key="grandChild.categoryChild"
+                                        >
+                                            <a
+                                                href="javascript:;"
+                                                :data-categoryName="
+                                                    grandChild.categoryName
+                                                "
+                                                :data-categoryId="
+                                                    grandChild.categoryId
+                                                "
+                                                :data-categoryType="3"
+                                                >{{
+                                                    grandChild.categoryName
+                                                }}</a
+                                            ></em
+                                        >
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </transition>
         </div>
     </div>
 </template>
@@ -77,6 +91,12 @@ import { mapState, mapActions } from "vuex";
 
 export default {
     name: "ClassifiedNav",
+    data() {
+        return {
+            isHomeShow: this.$route.path === "/",
+            isSearchShow: false,
+        };
+    },
     computed: {
         // ...mapState可以使用一个对象，对象中的数据，就会传递给组件
         // 对象中key就是组件能接受到的数据，value是一个函数，函数内部会调用得到值，调用时会将所有vuex数据传递进去，就是state
@@ -151,11 +171,18 @@ export default {
     position: absolute;
     top: 48px;
     width: 210px;
+    height: 459px;
     color: #333;
+    background-color: #fafafa;
+    &.search-enter {
+        height: 0px;
+    }
+    &.search-enter-active {
+        overflow: hidden;
+        transition: height 0.5s;
+    }
     ul {
         position: relative;
-        height: 459px;
-        background-color: #fafafa;
     }
     li {
         height: 30px;
