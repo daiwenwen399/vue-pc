@@ -114,13 +114,22 @@ export default {
             // 判断是点击了a标签，才跳转
             if (!categoryname) return;
 
-            this.$router.push({
-                path: "/search",
+            const location = {
+                name: "search",
                 query: {
                     categoryName: categoryname,
                     [`category${categorytype}Id`]: categoryid,
                 },
-            });
+            };
+
+            // 判断是否有params参数
+            const { searchContent } = this.$route.params;
+
+            if (searchContent) {
+                location.params = { searchContent };
+            }
+
+            this.$router.push(location);
         },
     },
     mounted() {
