@@ -1,10 +1,17 @@
 <template>
     <!-- 全部商品导航区 -->
     <div id="all_nav">
-        <ul class="all_menu">
+        <ul class="all_menu" @click="goSearch">
             <li v-for="category in allNav" :key="category.categoryId">
                 <!-- 一级分类名称 -->
-                <a href="javascript:;">{{ category.categoryName }}</a>
+                <!-- 使用自定义属性的方法来传递参数 -->
+                <a
+                    href="javascript:;"
+                    :data-categoryName="category.categoryName"
+                    :data-categoryId="category.categoryId"
+                    :data-categoryType="1"
+                    >{{ category.categoryName }}</a
+                >
                 <div class="all_submenu">
                     <dl
                         class="div-after"
@@ -13,7 +20,13 @@
                     >
                         <!-- 二级分类名称 -->
                         <dt>
-                            <a href="javascript:;">{{ child.categoryName }}</a>
+                            <a
+                                href="javascript:;"
+                                :data-categoryName="child.categoryName"
+                                :data-categoryId="child.categoryId"
+                                :data-categoryType="2"
+                                >{{ child.categoryName }}</a
+                            >
                         </dt>
                         <!-- 三级分类名称 -->
                         <dd>
@@ -21,9 +34,13 @@
                                 v-for="grandChild in child.categoryChild"
                                 :key="grandChild.categoryChild"
                             >
-                                <a href="javascript:;">{{
-                                    grandChild.categoryName
-                                }}</a></em
+                                <a
+                                    href="javascript:;"
+                                    :data-categoryName="grandChild.categoryName"
+                                    :data-categoryId="grandChild.categoryId"
+                                    :data-categoryType="3"
+                                    >{{ grandChild.categoryName }}</a
+                                ></em
                             >
                         </dd>
                     </dl>
@@ -39,6 +56,8 @@ import { mapState, mapActions } from "vuex";
 export default {
     name: "AllNav",
     computed: {
+        // ...mapState可以使用一个对象，对象中的数据，就会传递给组件
+        // 对象中key就是组件能接受到的数据，value是一个函数，函数内部会调用得到值，调用时会将所有vuex数据传递进去，就是state
         ...mapState({
             allNav: (state) => state.home.allNav,
         }),
@@ -46,6 +65,21 @@ export default {
     methods: {
         // 函数可以直接写，注意：将来action函数名称和mutation函数名称不要重复
         ...mapActions(["getAllNav"]),
+        // 利用事件委托来绑定事件传递参数
+        goSearch(e) {
+            // 元素自定义属性对象
+            const { categoryname, categoryid, categorytype } = e.target.dataset;
+            // 判断是点击了a标签，才跳转
+            if (!categoryname) return;
+
+            this.$router.push({
+                path: "/search",
+                query: {
+                    categoryName: categoryname,
+                    [`category${categorytype}Id`]: categoryid,
+                },
+            });
+        },
     },
     mounted() {
         this.getAllNav();
