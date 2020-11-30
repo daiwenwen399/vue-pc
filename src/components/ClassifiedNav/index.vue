@@ -133,6 +133,8 @@ export default {
         },
     },
     mounted() {
+        // 在请求之前先判断vuex有没有数据
+        if (this.allNav.length) return;
         this.getAllNav();
     },
 };
