@@ -5,6 +5,9 @@
         <RecomToday />
         <Ranking />
         <Like />
+        <Content />
+        <Content />
+        <Brand />
     </div>
 </template>
 
@@ -14,6 +17,8 @@ import Banner from "./Banner";
 import RecomToday from "./RecomToday";
 import Ranking from "./Ranking";
 import Like from "./Like";
+import Content from "./Content";
+import Brand from "./Brand";
 
 export default {
     name: "Home",
@@ -23,6 +28,8 @@ export default {
         RecomToday,
         Ranking,
         Like,
+        Content,
+        Brand,
     },
 };
 </script>
