@@ -1,7 +1,6 @@
 <template>
     <!-- 商城banner区 -->
     <div id="main">
-        <AllNav />
         <!-- 轮播图区 -->
         <div id="main_banner">
             <ul>
@@ -141,13 +140,8 @@
 </template>
 
 <script>
-import AllNav from "@comps/AllNav";
-
 export default {
     name: "Banner",
-    components: {
-        AllNav,
-    },
 };
 </script>
 
@@ -163,6 +157,7 @@ export default {
     width: 730px;
     height: 454px;
     margin: 5px;
+    padding-left: 210px;
     overflow: hidden;
 }
 // 右侧雪碧图区

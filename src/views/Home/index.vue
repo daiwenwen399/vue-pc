@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ClassifiedNav from "./ClassifiedNav";
+import ClassifiedNav from "@comps/ClassifiedNav";
 import Banner from "./Banner";
 import RecomToday from "./RecomToday";
 import Ranking from "./Ranking";
