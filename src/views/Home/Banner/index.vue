@@ -9,21 +9,6 @@
                         <img src="./images/banner1.jpg" />
                     </a>
                 </li>
-                <li>
-                    <a href="javascript:;">
-                        <img src="./images/banner2.jpg" />
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                        <img src="./images/banner3.jpg" />
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:;">
-                        <img src="./images/banner4.jpg" />
-                    </a>
-                </li>
             </ul>
             <div class="banner_arrow_prev"></div>
             <div class="banner_arrow_next"></div>
@@ -33,6 +18,11 @@
                 <div></div>
                 <div></div>
             </div>
+            <!-- <el-carousel trigger="click" height="150px">
+                <el-carousel-item v-for="item in 4" :key="item">
+                    <h3 class="small">{{ item }}</h3>
+                </el-carousel-item>
+            </el-carousel> -->
         </div>
         <!-- 右侧雪碧图区 -->
         <div id="main_sprite">
@@ -140,8 +130,21 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
     name: "Banner",
+    computed: {
+        ...mapState({
+            banners: (state) => state.home.banners,
+        }),
+    },
+    methods: {
+        ...mapActions(["getBanners"]),
+    },
+    mounted() {
+        this.getBanners();
+    },
 };
 </script>
 
@@ -158,7 +161,29 @@ export default {
     height: 454px;
     margin: 5px;
     padding-left: 210px;
-    overflow: hidden;
+    /*     .el-carousel {
+        // width: 2920px;
+        // height: 454px;
+    }
+    .el-carousel__container{
+        height: 454px;
+    }
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        height: 454px;
+        line-height: 454px;
+        margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n + 1) {
+        background-color: #d3dce6;
+    } */
 }
 // 右侧雪碧图区
 #main_sprite {
