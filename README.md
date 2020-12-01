@@ -1,24 +1,22 @@
-# vue-pc
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1.初始化项目
+2.配置前端路由
+3.配置less
+4.完成header静态页面
+5.实现header路由跳转功能
+6.给search组件路由路径增加params参数
+7.重写路由push/replace解决报错
+8.在登录和注册时底部不显示
+9.配置路径别名
+10.搭建Home组件
+11.拦截器和代理服务器配置
+12.减少请求次数
+13.应用elementui
+14.请求进度条
+15.首页三级分类动态展示
+16.vuex的模块化
+17.跳转search组件
+18.search组件控制三级分类显示和隐藏
+19.三级分类过渡效果
+20.解决搜索时params和query参数丢失问题
+21.解决移入移出
+22.mock的使用

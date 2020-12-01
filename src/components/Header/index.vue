@@ -48,7 +48,7 @@ export default {
         search() {
             const { searchContent } = this;
             /**
-             *   使用字符串方式进行路由拼接
+             *   方式使用字符串方式进行路由拼接
              *
                 // 获得搜索的数据，判断是否要增加params参数
                 const params = this.searchContent ? `/${this.searchContent}` : "";
@@ -59,7 +59,7 @@ export default {
             */
 
             /**
-            *   使用对象方式进行拼接
+            *   方式二：使用对象方式进行拼接
                 {
                     path: 路由路径,
                     query: {} 查询字符串参数
@@ -70,6 +70,7 @@ export default {
                     query: {} 查询字符串参数
                 }
             */
+
             const location = {
                 name: "search",
                 // query: {

@@ -3,7 +3,8 @@
     <div id="main">
         <!-- 轮播图区 -->
         <div id="main_banner">
-            <ul>
+            <Carousel :carouselList="banners" />
+            <!-- <ul>
                 <li>
                     <a href="javascript:;">
                         <img src="./images/banner1.jpg" />
@@ -17,12 +18,7 @@
                 <div class="active"></div>
                 <div></div>
                 <div></div>
-            </div>
-            <!-- <el-carousel trigger="click" height="150px">
-                <el-carousel-item v-for="item in 4" :key="item">
-                    <h3 class="small">{{ item }}</h3>
-                </el-carousel-item>
-            </el-carousel> -->
+            </div> -->
         </div>
         <!-- 右侧雪碧图区 -->
         <div id="main_sprite">
@@ -131,6 +127,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import Carousel from "@comps/Carousel";
 
 export default {
     name: "Banner",
@@ -142,8 +139,11 @@ export default {
     methods: {
         ...mapActions(["getBanners"]),
     },
-    mounted() {
-        this.getBanners();
+    async mounted() {
+        await this.getBanners();
+    },
+    components: {
+        Carousel,
     },
 };
 </script>
@@ -161,29 +161,6 @@ export default {
     height: 454px;
     margin: 5px;
     padding-left: 210px;
-    /*     .el-carousel {
-        // width: 2920px;
-        // height: 454px;
-    }
-    .el-carousel__container{
-        height: 454px;
-    }
-    .el-carousel__item h3 {
-        color: #475669;
-        font-size: 14px;
-        opacity: 0.75;
-        height: 454px;
-        line-height: 454px;
-        margin: 0;
-    }
-
-    .el-carousel__item:nth-child(2n) {
-        background-color: #99a9bf;
-    }
-
-    .el-carousel__item:nth-child(2n + 1) {
-        background-color: #d3dce6;
-    } */
 }
 // 右侧雪碧图区
 #main_sprite {
