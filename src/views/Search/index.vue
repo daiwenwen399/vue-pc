@@ -46,22 +46,22 @@
                         <div class="navbar-inner filter">
                             <ul class="sui-nav">
                                 <li class="active">
-                                    <a href="#">综合</a>
+                                    <a>综合</a>
                                 </li>
                                 <li>
-                                    <a href="#">销量</a>
+                                    <a>销量</a>
                                 </li>
                                 <li>
-                                    <a href="#">新品</a>
+                                    <a>新品</a>
                                 </li>
                                 <li>
-                                    <a href="#">评价</a>
+                                    <a>评价</a>
                                 </li>
                                 <li>
-                                    <a href="#">价格⬆</a>
+                                    <a>价格⬆</a>
                                 </li>
                                 <li>
-                                    <a href="#">价格⬇</a>
+                                    <a>价格⬇</a>
                                 </li>
                             </ul>
                         </div>
@@ -118,33 +118,17 @@
                     </div>
                     <!-- 分页器 -->
                     <div class="fr page">
-                        <div class="sui-pagination clearfix">
-                            <ul>
-                                <li class="prev disabled">
-                                    <a href="#">«上一页</a>
-                                </li>
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">4</a>
-                                </li>
-                                <li>
-                                    <a href="#">5</a>
-                                </li>
-                                <li class="dotted"><span>...</span></li>
-                                <li class="next">
-                                    <a href="#">下一页»</a>
-                                </li>
-                            </ul>
-                            <div><span>共10页&nbsp;</span></div>
-                        </div>
+                        <el-pagination
+                            background
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="7"
+                            :page-sizes="[10, 20, 30, 40]"
+                            :page-size="100"
+                            layout="jumper, prev, pager, next, total, sizes"
+                            :total="total"
+                        >
+                        </el-pagination>
                     </div>
                 </div>
             </div>
@@ -181,7 +165,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(["goodsList"]),
+        ...mapGetters(["goodsList", "total"]),
     },
     methods: {
         ...mapActions(["getProductList"]),
@@ -244,6 +228,12 @@ export default {
         delProps(index) {
             this.options.props.splice(index, 1);
             this.updataProductList();
+        },
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
         },
     },
     mounted() {
