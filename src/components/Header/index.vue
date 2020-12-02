@@ -91,6 +91,11 @@ export default {
             this.$router.push(location);
         },
     },
+    mounted() {
+        this.$bus.$on("delSearchContent", () => {
+            this.searchContent = "";
+        });
+    },
 };
 </script>
 

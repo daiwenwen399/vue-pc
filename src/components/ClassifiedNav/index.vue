@@ -185,6 +185,7 @@ export default {
     height: 459px;
     color: #333;
     background-color: #fafafa;
+    z-index: 1;
     &.search-enter {
         height: 0px;
     }

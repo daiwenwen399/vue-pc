@@ -18,7 +18,7 @@ export default {
         async getBanners(store) {
             const banners = await reqMockBanners()
             store.commit('GETBANNERS', banners)
-        }
+        },
     },
     mutations: {
         GETALLNAV(state, newAllNav) {
@@ -26,6 +26,6 @@ export default {
         },
         GETBANNERS(state, banners) {
             state.banners = banners;
-        }
+        },
     },
 }
