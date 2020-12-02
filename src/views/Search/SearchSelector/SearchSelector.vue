@@ -7,6 +7,11 @@
                     <li
                         v-for="trademark in trademarkList"
                         :key="trademark.tmId"
+                        @click="
+                            addTrademark(
+                                `${trademark.tmId}:${trademark.tmName}`
+                            )
+                        "
                     >
                         {{ trademark.tmName }}
                     </li>
@@ -24,6 +29,7 @@
                     <li
                         v-for="(attr, index) in attrs.attrValueList"
                         :key="index"
+                        @click="$emit('add-props',`${attrs.attrId}:${attr}:${attrs.attrName}`)"
                     >
                         <a>{{ attr }}</a>
                     </li>
@@ -39,6 +45,9 @@ import { mapGetters } from "vuex";
 
 export default {
     name: "SearchSelector",
+    props: {
+        addTrademark: Function,
+    },
     computed: {
         ...mapGetters(["trademarkList", "attrsList"]),
     },

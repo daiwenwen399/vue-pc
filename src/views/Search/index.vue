@@ -12,17 +12,33 @@
                     </ul>
                     <ul class="fl sui-tag">
                         <li class="with-x" v-show="options.keyword">
-                            {{ options.keyword }}<i @click="delKeyword">×</i>
+                            关键词：{{ options.keyword
+                            }}<i @click="delKeyword">×</i>
                         </li>
                         <li class="with-x" v-show="options.categoryName">
-                            {{ options.categoryName
+                            类别：{{ options.categoryName
                             }}<i @click="delCategoryName">×</i>
+                        </li>
+                        <li class="with-x" v-show="options.trademark">
+                            品牌：{{ options.trademark.split(":")[1]
+                            }}<i @click="delTrademark">×</i>
+                        </li>
+                        <li
+                            class="with-x"
+                            v-for="(prop, index) in options.props"
+                            :key="prop"
+                        >
+                            {{ prop.split(":")[2] }} : {{ prop.split(":")[1]
+                            }}<i @click="delProps(index)">×</i>
                         </li>
                     </ul>
                 </div>
 
                 <!--selector-->
-                <SearchSelector />
+                <SearchSelector
+                    :addTrademark="addTrademark"
+                    @add-props="addProps"
+                />
 
                 <!-- 商品列表导航 -->
                 <div class="details clearfix">
@@ -169,6 +185,7 @@ export default {
     },
     methods: {
         ...mapActions(["getProductList"]),
+        // 更新商品列表
         updataProductList() {
             const { searchContent: keyword } = this.$route.params;
             const {
@@ -191,6 +208,7 @@ export default {
 
             this.getProductList(options);
         },
+        // 删除搜索内容
         delKeyword() {
             this.options.keyword = "";
             this.$router.replace({
@@ -199,12 +217,33 @@ export default {
             });
             this.$bus.$emit("delSearchContent");
         },
+        // 删除分类数据
         delCategoryName() {
             this.options.categoryName = "";
             this.$router.replace({
                 name: "search",
                 params: this.$route.params,
             });
+        },
+        // 增加品牌搜索
+        addTrademark(trademark) {
+            this.options.trademark = trademark;
+            this.updataProductList();
+        },
+        // 删除品牌搜索
+        delTrademark() {
+            this.options.trademark = "";
+            this.updataProductList();
+        },
+        // 增加属性搜索
+        addProps(props) {
+            this.options.props.push(props);
+            this.updataProductList();
+        },
+        // 删除属性搜索
+        delProps(index) {
+            this.options.props.splice(index, 1);
+            this.updataProductList();
         },
     },
     mounted() {

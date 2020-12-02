@@ -88,7 +88,13 @@ export default {
             if (categoryName) {
                 location.query = this.$route.query;
             }
-            this.$router.push(location);
+
+            // 如果当前路径是搜索页面就用replace
+            if (this.$route.name === "search") {
+                this.$router.replace(location);
+            } else {
+                this.$router.push(location);
+            }
         },
     },
     mounted() {
