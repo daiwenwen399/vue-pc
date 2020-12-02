@@ -163,9 +163,10 @@
                             background
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :current-page="7"
-                            :page-sizes="[10, 20, 30, 40]"
-                            :page-size="100"
+                            :current-page="options.pageNo"
+                            :pager-count="7"
+                            :page-sizes="[5, 10, 15, 20]"
+                            :page-size="options.pageSize"
                             layout="jumper, prev, pager, next, total, sizes"
                             :total="total"
                         >
@@ -194,7 +195,7 @@ export default {
                 keyword: "", // 搜索内容（搜索关键字）
                 order: "1:desc", // 排序方式：1：综合排序  2：价格排序   asc 升序  desc 降序
                 pageNo: 1, // 分页的页码（第几页）
-                pageSize: 5, // 分页的每页商品数量
+                pageSize: 10, // 分页的每页商品数量
                 props: [], // 商品属性
                 trademark: "", // 品牌
             },
@@ -213,7 +214,7 @@ export default {
     methods: {
         ...mapActions(["getProductList"]),
         // 更新商品列表
-        updataProductList() {
+        updataProductList(pageNo = 1) {
             const { searchContent: keyword } = this.$route.params;
             const {
                 categoryName,
@@ -229,6 +230,7 @@ export default {
                 category1Id,
                 category2Id,
                 category3Id,
+                pageNo,
             };
 
             this.options = options;
@@ -298,12 +300,14 @@ export default {
             this.options.order = `${order}:${orderType}`;
             this.updataProductList();
         },
-        // 分页器功能
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+        // 当每页条数发生变化触发
+        handleSizeChange(pageSize) {
+            this.options.pageSize = pageSize;
+            this.updataProductList();
         },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+        // 当页码发生变化触发
+        handleCurrentChange(pageNo) {
+            this.updataProductList(pageNo);
         },
     },
     mounted() {
