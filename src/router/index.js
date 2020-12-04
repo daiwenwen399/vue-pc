@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home'
-import Login from '../views/Login'
-import Register from '../views/Register'
-import Search from '../views/Search'
+import Home from '@views/Home'
+import Login from '@views/Login'
+import Register from '@views/Register'
+import Search from '@views/Search'
+import Detail from '@views/Detail'
 
 // 重写push\replace方法解决重复点击报错问题
 const newPush = VueRouter.prototype.push;
@@ -58,6 +59,11 @@ export default new VueRouter({
             // ?: 代表 params 参数是可选的
             path: '/search/:searchContent?',
             component: Search,
+        },
+        {
+            name: "detail",
+            path: "/detail/:id",
+            component: Detail,
         },
     ],
 })

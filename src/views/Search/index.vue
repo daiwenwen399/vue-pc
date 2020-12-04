@@ -159,7 +159,14 @@
                     </div>
                     <!-- 分页器 -->
                     <div class="fr page">
-                        <el-pagination
+                        <Pagination
+                            :total="total"
+                            :pageSize="options.pageSize"
+                            :pageCount="7"
+                            :currentPage="options.pageNo"
+                            @currentChange="handleCurrentChange"
+                        />
+                        <!-- <el-pagination
                             background
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
@@ -170,7 +177,7 @@
                             layout="jumper, prev, pager, next, total, sizes"
                             :total="total"
                         >
-                        </el-pagination>
+                        </el-pagination> -->
                     </div>
                 </div>
             </div>
@@ -181,6 +188,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import ClassifiedNav from "@comps/ClassifiedNav";
+import Pagination from "@comps/Pagination";
 import SearchSelector from "./SearchSelector/SearchSelector";
 
 export default {
@@ -195,7 +203,7 @@ export default {
                 keyword: "", // 搜索内容（搜索关键字）
                 order: "1:desc", // 排序方式：1：综合排序  2：价格排序   asc 升序  desc 降序
                 pageNo: 1, // 分页的页码（第几页）
-                pageSize: 10, // 分页的每页商品数量
+                pageSize: 5, // 分页的每页商品数量
                 props: [], // 商品属性
                 trademark: "", // 品牌
             },
@@ -313,9 +321,9 @@ export default {
     mounted() {
         this.updataProductList();
     },
-
     components: {
         ClassifiedNav,
+        Pagination,
         SearchSelector,
     },
 };
