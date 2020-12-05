@@ -4,7 +4,7 @@
             @click="changePage(myCurrentPage - 1)"
             :disabled="myCurrentPage === 1"
         >
-            上一页
+            &lt;
         </button>
         <button :class="{ active: myCurrentPage === 1 }" @click="changePage(1)">
             1
@@ -30,7 +30,7 @@
             @click="changePage(myCurrentPage + 1)"
             :disabled="myCurrentPage >= totalPages"
         >
-            下一页
+            &gt;
         </button>
         <p>共{{ total }}条</p>
     </div>

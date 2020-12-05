@@ -117,9 +117,11 @@
                             >
                                 <div class="list-wrap">
                                     <div class="p-img">
-                                        <a href="item.html" target="_blank"
+                                        <router-link
+                                            :to="`/detail/${goods.id}`"
+                                            target="_blank"
                                             ><img :src="goods.defaultImg"
-                                        /></a>
+                                        /></router-link>
                                     </div>
                                     <div class="price">
                                         <strong>
@@ -128,11 +130,11 @@
                                         </strong>
                                     </div>
                                     <div class="attr">
-                                        <a
+                                        <router-link
                                             target="_blank"
-                                            href="item.html"
+                                            :to="`/detail/${goods.id}`"
                                             title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                                            >{{ goods.title }}</a
+                                            >{{ goods.title }}</router-link
                                         >
                                     </div>
                                     <div class="commit">
@@ -160,7 +162,7 @@
                     <!-- 分页器 -->
                     <div class="fr page">
                         <Pagination
-                            :total="total"
+                            :total="12"
                             :pageSize="options.pageSize"
                             :pageCount="7"
                             :currentPage="options.pageNo"
