@@ -1,18 +1,47 @@
 <template>
-    <div class="swiper-container">
+    <div class="swiper-container" ref="swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="../images/s1.png" />
+            <div
+                class="swiper-slide"
+                v-for="skuImage in skuImageList"
+                :key="skuImage.id"
+            >
+                <img :src="skuImage.imgUrl" />
             </div>
         </div>
+        <!-- 左右按钮 -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
 </template>
 
 <script>
+import Swiper, { Navigation } from "swiper";
+import "swiper/swiper-bundle.min.css";
+
+Swiper.use([Navigation]);
+
 export default {
     name: "ImageList",
+    props: {
+        skuImageList: Array,
+    },
+    watch: {
+        skuImageList() {
+            this.$nextTick(() => {
+                this.swiper = new Swiper(this.$refs.swiper, {
+                    slidesPerView: 5,
+                    spaceBetween: 30,
+                    slidesPerGroup: 3,
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                });
+            });
+        },
+    },
+    mounted() {},
 };
 </script>
 
