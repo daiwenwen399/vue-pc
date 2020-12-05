@@ -3,10 +3,10 @@
         <div class="swiper-wrapper">
             <div
                 class="swiper-slide"
-                v-for="skuImage in skuImageList"
+                v-for="(skuImage, index) in skuImageList"
                 :key="skuImage.id"
             >
-                <img :src="skuImage.imgUrl" />
+                <img :src="skuImage.imgUrl" @click="changeImgIndex(index)" />
             </div>
         </div>
         <!-- 左右按钮 -->
@@ -25,6 +25,7 @@ export default {
     name: "ImageList",
     props: {
         skuImageList: Array,
+        changeImgIndex: Function,
     },
     watch: {
         skuImageList() {
@@ -41,7 +42,9 @@ export default {
             });
         },
     },
-    mounted() {},
+    methods: {
+        changeImg() {},
+    },
 };
 </script>
 
