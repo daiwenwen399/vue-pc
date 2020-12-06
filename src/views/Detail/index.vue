@@ -108,11 +108,16 @@
                         </div>
                         <div class="cartWrap">
                             <div class="controls">
-                                <input autocomplete="off" class="itxt" />
-                                <a href="javascript:" class="plus">+</a>
-                                <a href="javascript:" class="mins">-</a>
+                                <el-input-number
+                                    class="input_num"
+                                    v-model="skunum"
+                                    controls-position="right"
+                                    :min="1"
+                                    :max="100"
+                                    size="medium"
+                                ></el-input-number>
                             </div>
-                            <div class="add">
+                            <div class="add" @click="addCart">
                                 <a href="javascript:">加入购物车</a>
                             </div>
                         </div>
@@ -377,16 +382,31 @@ export default {
     data() {
         return {
             imgIndex: 0,
-            isActive: false,
+            skunum: 1,
         };
     },
     computed: {
         ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
     },
     methods: {
-        ...mapActions(["getProductDetail"]),
+        ...mapActions(["getProductDetail", "addToCart"]),
+        // 更新选中图片下标
         changeImgIndex(index) {
             this.imgIndex = index;
+        },
+        // 添加到购物车
+        async addCart() {
+            try {
+                // 发送请求，加入购物车
+                await this.addToCart({
+                    skuId: this.skuInfo.id,
+                    skuNum: this.skunum,
+                });
+                // 加入购物车后跳转到加入购物车成功页面
+                this.$router.push(`/addcartsuccess?skuNum=${this.skunum}`);
+            } catch (e) {
+                console.log(e);
+            }
         },
     },
     components: {
@@ -564,48 +584,17 @@ export default {
 
                     .cartWrap {
                         .controls {
-                            width: 48px;
+                            width: 48px !important;
                             position: relative;
                             float: left;
                             margin-right: 15px;
-
-                            .itxt {
-                                width: 38px;
-                                height: 37px;
-                                border: 1px solid #ddd;
-                                color: #555;
-                                float: left;
-                                border-right: 0;
-                                text-align: center;
-                            }
-
-                            .plus,
-                            .mins {
-                                width: 15px;
-                                text-align: center;
-                                height: 17px;
-                                line-height: 17px;
-                                background: #f1f1f1;
-                                color: #666;
-                                position: absolute;
-                                right: -8px;
-                                border: 1px solid #ccc;
-                            }
-
-                            .mins {
-                                right: -8px;
-                                top: 19px;
-                                border-top: 0;
-                            }
-
-                            .plus {
-                                right: -8px;
+                            .input_num {
+                                width: 100px;
                             }
                         }
-
                         .add {
                             float: left;
-
+                            margin-left: 45px;
                             a {
                                 background-color: #e1251b;
                                 padding: 0 25px;

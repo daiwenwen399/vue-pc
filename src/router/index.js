@@ -6,6 +6,8 @@ import Login from '@views/Login'
 import Register from '@views/Register'
 import Search from '@views/Search'
 import Detail from '@views/Detail'
+import AddCartSuccess from '@views/AddCartSuccess'
+import ShopCart from '@views/ShopCart'
 
 // 重写push\replace方法解决重复点击报错问题
 const newPush = VueRouter.prototype.push;
@@ -64,6 +66,16 @@ export default new VueRouter({
             name: "detail",
             path: "/detail/:id",
             component: Detail,
+        },
+        {
+            name: "addcartsuccess",
+            path: "/addcartsuccess",
+            component: AddCartSuccess,
+        },
+        {
+            name: "shopCart",
+            path: "/shopCart",
+            component: ShopCart,
         },
     ],
 })
