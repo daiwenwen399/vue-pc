@@ -1,11 +1,12 @@
 <template>
     <div class="spec-preview">
         <img :src="imgUrl" />
-        <div class="event"></div>
+        <div class="event" @mousemove="move" ref="event"></div>
         <div class="big">
-            <img :src="bigImgUrl" />
+            <img :src="bigImgUrl" ref="bigimg" />
         </div>
-        <div class="mask"></div>
+        <!-- 遮罩区 -->
+        <div class="mask" ref="mask"></div>
     </div>
 </template>
 
@@ -15,6 +16,38 @@ export default {
     props: {
         imgUrl: String,
         bigImgUrl: String,
+    },
+    methods: {
+        move(e) {
+            // 获得鼠标与盒子边框的距离
+            const { offsetX, offsetY } = e;
+            // 获取区域
+            const maskDiv = this.$refs.mask;
+            const eventDiv = this.$refs.event;
+            const bigimgDiv = this.$refs.bigimg;
+
+            // 获取偏移量
+            // 距离左边的距离=鼠标离左边的距离 - 蒙版区域的宽/2
+            let posW = offsetX - maskDiv.offsetWidth / 2;
+            let posY = offsetY - maskDiv.offsetHeight / 2;
+            // 判断临界值
+            if (posW <= 0) {
+                posW = 0;
+            } else if (posW >= eventDiv.offsetWidth - maskDiv.offsetWidth) {
+                posW = eventDiv.offsetWidth - maskDiv.offsetWidth;
+            }
+            if (posY <= 0) {
+                posY = 0;
+            } else if (posY >= eventDiv.offsetHeight - maskDiv.offsetHeight) {
+                posY = eventDiv.offsetHeight - maskDiv.offsetHeight;
+            }
+            // 将偏移量赋值给蒙版区域
+            maskDiv.style.left = posW + "px";
+            maskDiv.style.top = posY + "px";
+            // 将偏移量赋值给大图区域
+            bigimgDiv.style.left = -posW * 2 + "px";
+            bigimgDiv.style.top = -posY * 2 + "px";
+        },
     },
 };
 </script>

@@ -377,6 +377,7 @@ export default {
     data() {
         return {
             imgIndex: 0,
+            isActive: false,
         };
     },
     computed: {
