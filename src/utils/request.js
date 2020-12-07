@@ -17,6 +17,9 @@ import 'nprogress/nprogress.css'
 // 引入getUserTempId
 import getUserTempId from './userTempId'
 
+// 引入store
+import store from '../store'
+
 // 创建未登录用户的唯一id
 const userTempId = getUserTempId();
 
@@ -36,6 +39,10 @@ instance.interceptors.request.use(
         // 开始进度条
         NProgress.start();
 
+        const { token } = store.state.user
+        if (token) {
+            config.headers.token = token
+        }
         config.headers.userTempId = userTempId;
         return config;
     },

@@ -6,8 +6,15 @@
             <div class="top">
                 <div class="top_title">
                     <strong>尚品汇欢迎您！</strong>
-                    请 <router-link to="/login">登录</router-link>
-                    <router-link to="/register">免费注册</router-link>
+                    <p v-if="userName">
+                        <span>{{ userName }}</span>
+                        <button @click="signOut">退出</button>
+                    </p>
+                    <p v-else>
+                        <span>请</span>
+                        <router-link to="/login">登录</router-link>
+                        <router-link to="/register">免费注册</router-link>
+                    </p>
                 </div>
                 <nav class="top_nav">
                     <a href="javascript:;">我的订单</a>
@@ -37,12 +44,19 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     name: "Header",
     data() {
         return {
             searchContent: "",
         };
+    },
+    computed: {
+        ...mapState({
+            userName: (state) => state.user.name,
+        }),
     },
     methods: {
         search() {
@@ -96,6 +110,9 @@ export default {
                 this.$router.push(location);
             }
         },
+        signOut() {
+            this.$store.dispatch("loginOut");
+        },
     },
     mounted() {
         this.$bus.$on("delSearchContent", () => {
@@ -121,6 +138,9 @@ export default {
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
+    }
+    .top_title {
+        display: flex;
     }
     a {
         padding: 0 4px 0 8px;

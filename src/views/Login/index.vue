@@ -19,20 +19,45 @@
                     </div>
                     <form>
                         <div class="username">
-                            <i></i
-                            ><input
-                                type="text"
-                                placeholder="请输入用户名/手机号"
-                            />
+                            <ValidationProvider
+                                rules="required|phone"
+                                v-slot="{ errors }"
+                            >
+                                <i></i
+                                ><input
+                                    type="text"
+                                    placeholder="请输入用户名/手机号"
+                                    v-model="user.phone"
+                                />
+                                <span>{{ errors[0] }}</span>
+                            </ValidationProvider>
                         </div>
                         <div class="password">
-                            <i></i>
-                            <input type="password" placeholder="请输入密码" />
+                            <ValidationProvider
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
+                                <i></i>
+                                <input
+                                    type="password"
+                                    placeholder="请输入密码"
+                                    v-model="user.password"
+                                />
+                                <span>{{ errors[0] }}</span>
+                            </ValidationProvider>
                         </div>
                         <div class="forget_password">
+                            <label class="checkbox inline">
+                                <input
+                                    name="m1"
+                                    type="checkbox"
+                                    v-model="isAutoLogin"
+                                />
+                                <em>自动登录</em>
+                            </label>
                             <a href="javascript:;">忘记密码</a>
                         </div>
-                        <el-button type="danger" @click="loginBtn"
+                        <el-button type="danger" class="login" @click="submit"
                             >登录</el-button
                         >
                     </form>
@@ -40,7 +65,12 @@
                         <ul>
                             <li class="qq"><a>QQ</a></li>
                             <li class="wechat"><a>微信</a></li>
-                            <li class="register"><i></i><a>立即注册</a></li>
+                            <li class="register">
+                                <i></i
+                                ><router-link to="/register"
+                                    >立即注册</router-link
+                                >
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -64,28 +94,67 @@
 </template>
 
 <script>
-import { reqLogin } from "@api/user";
+import { mapState } from "vuex";
+import { ValidationProvider, extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+
+extend("required", required);
+extend("phone", {
+    validate(value) {
+        return /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/.test(
+            value
+        );
+    },
+    message: "手机号格式不规范",
+});
 
 export default {
     name: "Login",
     data() {
         return {
             activeName: "saoma",
+            user: {
+                phone: "",
+                password: "",
+            },
+            isAutoLogin: true,
+            isLogining: false,
         };
     },
+    computed: {
+        ...mapState({
+            token: (state) => state.user.token,
+            username: (state) => state.user.name,
+        }),
+    },
+    created() {
+        if (this.token) {
+            this.$router.replace("/");
+        }
+    },
     methods: {
-        handleClick(tab, event) {
-            console.log(tab, event);
+        async submit() {
+            try {
+                // 如果正在登录就不允许再发送请求
+                if (this.isLogining) return;
+                this.isLogining = true;
+                const { phone, password } = this.user;
+                // 发送请求
+                await this.$store.dispatch("login", { phone, password });
+                // 登录成功，判断是否勾选自动登录
+                if (this.isAutoLogin) {
+                    localStorage.setItem("token", this.token);
+                    localStorage.setItem("username", this.username);
+                }
+                // 跳转页面
+                this.$router.replace("/");
+            } catch {
+                this.isLogining = false;
+            }
         },
-        loginBtn() {
-            reqLogin("13700000000", "1111111")
-                .then((res) => {
-                    console.log("res", res);
-                })
-                .catch((err) => {
-                    console.log("err", err);
-                });
-        },
+    },
+    components: {
+        ValidationProvider,
     },
 };
 </script>
@@ -168,7 +237,8 @@ export default {
             left: 0;
         }
 
-        input {
+        .username input,
+        .password input {
             width: 254px;
             height: 18px;
             line-height: 18px;
@@ -181,11 +251,21 @@ export default {
                 background-position: -48px 0;
             }
         }
+        span {
+            color: #e1251b;
+        }
     }
     .forget_password {
         border: 0;
         height: 18px;
-        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        .checkbox {
+            height: 18px;
+        }
+        input {
+            margin-top: 2px;
+        }
         a:hover {
             color: #e1251b;
             text-decoration: underline;

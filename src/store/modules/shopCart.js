@@ -1,7 +1,7 @@
 import {
     reqGetCartList,
     reqAddToCart,
-    // reqCheckCart,
+    reqCheckCart,
     reqDelCart,
 } from '@api/shopcart'
 
@@ -22,10 +22,10 @@ export default {
             commit('ADD_TO_CART', { skuId, skuNum });
         },
         // 切换商品选中状态
-        /* async checkCart({ commit }, { skuId, isChecked }) {
+        async checkCart({ commit }, { skuId, isChecked }) {
             await reqCheckCart(skuId, isChecked);
-            // commit('CHECK_CART', skuId, isChecked);
-        }, */
+            commit('CHECK_CART', skuId, isChecked);
+        },
         // 删除购物车商品
         async delCart({ commit }, skuId) {
             await reqDelCart(skuId);
@@ -44,9 +44,14 @@ export default {
                 return cart;
             })
         },
-        /* CHECK_CART(state, val) {
-            state
-        }, */
+        CHECK_CART(state, { skuId, isChecked }) {
+            state.cartList = state.cartList.map((cart) => {
+                if (cart.skuId === skuId) {
+                    cart.isChecked = isChecked
+                }
+                return cart;
+            })
+        },
         DEL_CART(state, skuId) {
             state.cartList = state.cartList.filter((item) => item.skuId !== skuId)
         },

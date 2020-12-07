@@ -17,6 +17,7 @@
                             type="checkbox"
                             name="chk_list"
                             :checked="cart.isChecked"
+                            @click="changeCheck(cart.skuId, cart.isChecked)"
                         />
                     </li>
                     <li class="cart-list-con2">
@@ -29,7 +30,7 @@
                         <span class="price">{{ cart.skuPrice }}</span>
                     </li>
                     <li class="cart-list-con5">
-                         <a
+                        <a
                             href="javascript:void(0)"
                             @click="updateCount(cart.skuId, -1)"
                             class="mins"
@@ -52,7 +53,6 @@
                             class="inputnum"
                             v-model="cart.skuNum"
                             :min="1"
-                            :max="100"
                             size="mini"
                             @change="updateCount(cart.skuId, cart.skuNum)"
                         ></el-input-number> -->
@@ -63,7 +63,12 @@
                         }}</span>
                     </li>
                     <li class="cart-list-con7">
-                        <a href="#none" class="sindelet">删除</a>
+                        <a
+                            href="#none"
+                            class="sindelet"
+                            @click="delCa(cart.skuId)"
+                            >删除</a
+                        >
                         <br />
                         <a href="#none">移到收藏</a>
                     </li>
@@ -72,11 +77,16 @@
         </div>
         <div class="cart-tool">
             <div class="select-all">
-                <input class="chooseAll" type="checkbox" />
+                <input
+                    class="chooseAll"
+                    type="checkbox"
+                    v-model="isAllCheck"
+                    @click="allCheck(isAllCheck)"
+                />
                 <span>全选</span>
             </div>
             <div class="option">
-                <a href="#none">删除选中的商品</a>
+                <a href="#none" @click="delCheck">删除选中的商品</a>
                 <a href="#none">移到我的关注</a>
                 <a href="#none">清除下柜商品</a>
             </div>
@@ -102,6 +112,11 @@ import { mapState, mapActions } from "vuex";
 
 export default {
     name: "ShopCart",
+    data() {
+        return {
+            isAllCheck: 0,
+        };
+    },
     computed: {
         ...mapState({
             cartList: (state) => state.shopCart.cartList,
@@ -120,12 +135,57 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["getCartList", "addToCart"]),
+        ...mapActions([
+            "getCartList",
+            "addToCart",
+            "delCart",
+            "checkCart",
+            "delAllCheck",
+        ]),
+        // 更新商品数量
         async updateCount(skuId, skuNum) {
-            // 更新商品数量
             await this.addToCart({ skuId, skuNum });
             // 刷新页面
             // this.getCartList();
+        },
+        // 删除购物车商品
+        delCa(skuId) {
+            this.delCart(skuId);
+        },
+        // 删除已选中商品
+        delCheck() {
+            this.cartList.map((cart) => {
+                if (cart.isChecked === 1) {
+                    this.delCart(cart.skuId);
+                }
+                return cart;
+            });
+        },
+        // 切换选择状态
+        async changeCheck(skuId, isChecked) {
+            if (isChecked === 0) {
+                isChecked = 1;
+            } else if (isChecked === 1) {
+                isChecked = 0;
+            }
+
+            await this.checkCart({ skuId, isChecked });
+            this.getCartList();
+        },
+        // 全选按钮
+        allCheck(isAllCheck) {
+            /* if (isAllCheck) {
+                isAllCheck = 1;
+            } else {
+                isAllCheck = 0;
+            } */
+            this.cartList.map((cart) => {
+                if (cart.isChecked !== isAllCheck) {
+                    console.log(cart.skuId, isAllCheck);
+                    // this.checkCart(cart.skuId, isAllCheck);
+                }
+                return cart;
+            });
         },
     },
     mounted() {
@@ -235,7 +295,7 @@ export default {
                     input {
                         border: 1px solid #ddd;
                         width: 40px;
-                        height: 33px;
+                        height: 32px;
                         float: left;
                         text-align: center;
                         font-size: 14px;
