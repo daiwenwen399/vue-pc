@@ -13,6 +13,7 @@
     "element-ui": "^2.14.1",
     "nprogress": "^0.2.0",
     "swiper": "^6.3.5",
+    "uuid": "^8.3.1",
     "vue": "^2.6.11",
     "vue-router": "^3.4.9",
     "vuex": "^3.6.0"
@@ -57,7 +58,8 @@
       "import/prefer-default-export": 0,
       "import/no-extraneous-dependencies": 0,
       "prefer-const": 0,
-      "no-lonely-if": 0
+      "no-lonely-if": 0,
+      "no-param-reassign": 0
     }
   },
   "browserslist": [

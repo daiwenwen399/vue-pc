@@ -19,8 +19,7 @@ export default {
         // 添加到购物车(对已有物品进行数量改动)
         async addToCart({ commit }, { skuId, skuNum }) {
             await reqAddToCart(skuId, skuNum);
-            console.log(commit);
-            // commit('ADD_TO_CART', cartList);
+            commit('ADD_TO_CART', { skuId, skuNum });
         },
         // 切换商品选中状态
         /* async checkCart({ commit }, { skuId, isChecked }) {
@@ -36,6 +35,14 @@ export default {
     mutations: {
         GET_CART_LIST(state, cartList) {
             state.cartList = cartList;
+        },
+        ADD_TO_CART(state, { skuId, skuNum }) {
+            state.cartList = state.cartList.map((cart) => {
+                if (cart.skuId === skuId) {
+                    cart.skuNum += skuNum
+                }
+                return cart;
+            })
         },
         /* CHECK_CART(state, val) {
             state

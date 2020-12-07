@@ -25,14 +25,16 @@
                             {{ cart.skuName }}
                         </div>
                     </li>
-                    <li class="cart-list-con3">
-                        <div class="item-txt">语音升级款</div>
-                    </li>
                     <li class="cart-list-con4">
                         <span class="price">{{ cart.skuPrice }}</span>
                     </li>
                     <li class="cart-list-con5">
-                        <a href="javascript:void(0)" class="mins">-</a>
+                         <a
+                            href="javascript:void(0)"
+                            @click="updateCount(cart.skuId, -1)"
+                            class="mins"
+                            >-</a
+                        >
                         <input
                             autocomplete="off"
                             type="text"
@@ -40,7 +42,20 @@
                             minnum="1"
                             class="itxt"
                         />
-                        <a href="javascript:void(0)" class="plus">+</a>
+                        <a
+                            href="javascript:void(0)"
+                            @click="updateCount(cart.skuId, 1)"
+                            class="plus"
+                            >+</a
+                        >
+                        <!-- <el-input-number
+                            class="inputnum"
+                            v-model="cart.skuNum"
+                            :min="1"
+                            :max="100"
+                            size="mini"
+                            @change="updateCount(cart.skuId, cart.skuNum)"
+                        ></el-input-number> -->
                     </li>
                     <li class="cart-list-con6">
                         <span class="sum">{{
@@ -66,10 +81,13 @@
                 <a href="#none">清除下柜商品</a>
             </div>
             <div class="money-box">
-                <div class="chosed">已选择 <span>0</span>件商品</div>
+                <div class="chosed">
+                    已选择 <span>{{ checkNum }}</span
+                    >件商品
+                </div>
                 <div class="sumprice">
                     <em>总价（不含运费） ：</em>
-                    <i class="summoney">0</i>
+                    <i class="summoney">{{ totalPrice }}</i>
                 </div>
                 <div class="sumbtn">
                     <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -88,9 +106,27 @@ export default {
         ...mapState({
             cartList: (state) => state.shopCart.cartList,
         }),
+        // 选择的商品数量
+        checkNum() {
+            return this.cartList
+                .filter((cart) => cart.isChecked)
+                .reduce((p, c) => p + c.skuNum, 0);
+        },
+        // 商品总价格
+        totalPrice() {
+            return this.cartList
+                .filter((cart) => cart.isChecked)
+                .reduce((p, c) => p + c.skuPrice * c.skuNum, 0);
+        },
     },
     methods: {
-        ...mapActions(["getCartList"]),
+        ...mapActions(["getCartList", "addToCart"]),
+        async updateCount(skuId, skuNum) {
+            // 更新商品数量
+            await this.addToCart({ skuId, skuNum });
+            // 刷新页面
+            // this.getCartList();
+        },
     },
     mounted() {
         this.getCartList();
@@ -121,7 +157,7 @@ export default {
             }
 
             .cart-th1 {
-                width: 25%;
+                width: 5%;
 
                 input {
                     vertical-align: middle;
@@ -133,14 +169,13 @@ export default {
             }
 
             .cart-th2 {
-                width: 25%;
+                width: 35%;
             }
-
             .cart-th3,
             .cart-th4,
             .cart-th5,
             .cart-th6 {
-                width: 12.5%;
+                width: 15%;
             }
         }
 
@@ -158,11 +193,11 @@ export default {
                 }
 
                 .cart-list-con1 {
-                    width: 4.1667%;
+                    width: 5%;
                 }
 
                 .cart-list-con2 {
-                    width: 25%;
+                    width: 35%;
 
                     img {
                         width: 82px;
@@ -178,21 +213,15 @@ export default {
                     }
                 }
 
-                .cart-list-con3 {
-                    width: 20.8333%;
-
-                    .item-txt {
-                        text-align: center;
-                    }
-                }
-
                 .cart-list-con4 {
-                    width: 12.5%;
+                    width: 15%;
                 }
 
                 .cart-list-con5 {
-                    width: 12.5%;
-
+                    width: 15%;
+                    .inputnum {
+                        width: 100px;
+                    }
                     .mins {
                         border: 1px solid #ddd;
                         border-right: 0;
@@ -224,7 +253,7 @@ export default {
                 }
 
                 .cart-list-con6 {
-                    width: 12.5%;
+                    width: 15%;
 
                     .sum {
                         font-size: 16px;
@@ -232,7 +261,7 @@ export default {
                 }
 
                 .cart-list-con7 {
-                    width: 12.5%;
+                    width: 15%;
 
                     a {
                         color: #666;

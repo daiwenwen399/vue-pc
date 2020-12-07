@@ -14,6 +14,12 @@ import { Message } from "element-ui";
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+// 引入getUserTempId
+import getUserTempId from './userTempId'
+
+// 创建未登录用户的唯一id
+const userTempId = getUserTempId();
+
 const instance = axios.create({
     // /就是当前服务器的地址
     baseURL: "/api", // 公共的基础路径
@@ -30,6 +36,7 @@ instance.interceptors.request.use(
         // 开始进度条
         NProgress.start();
 
+        config.headers.userTempId = userTempId;
         return config;
     },
 );
