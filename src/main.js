@@ -11,6 +11,7 @@ import './styles/iconfont.css'
 
 // 引入按需加载ui库
 import './plugins/element.js'
+import './plugins/lazyload.js'
 
 // 引入mockServer，里面代码一旦加载，就去启动mock服务器，从而拦截相应的请求
 import './mock/mockServer'

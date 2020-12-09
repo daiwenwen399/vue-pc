@@ -21,7 +21,7 @@
             <div class="orders">
                 <table
                     class="order-item"
-                    v-for="record in orderList.records"
+                    v-for="record in records"
                     :key="record.id"
                 >
                     <thead>
@@ -106,9 +106,9 @@
             </div>
             <!-- 分页器 -->
             <Pagination
-                :total="orderList.total"
-                :pageSize="orderList.size"
-                :currentPage="orderList.current"
+                :total="total"
+                :pageSize="pageSize"
+                :currentPage="currentPage"
                 @currentChange="handleCurrentChange"
             />
         </div>
@@ -181,20 +181,27 @@ export default {
     name: "MyOrder",
     data() {
         return {
-            orderList: {},
+            records: [],
+            total: 0, // 总条数
+            pageSize: 2, // 每一页显示数量
+            currentPage: 1, // 当前页码
         };
     },
     methods: {
-        handleCurrentChange(page) {
-            reqGetOrderList(page, 2);
+        async handleCurrentChange(page = 1) {
+            this.currentPage = page;
+            const result = await reqGetOrderList(page, this.pageSize);
+            console.log(result);
+                const { total, records } = result;
+                this.records = records;
+                this.total = total;
         },
     },
     components: {
         Pagination,
     },
-    async mounted() {
-        const orderList = await reqGetOrderList(1, 2);
-        this.orderList = orderList;
+    mounted() {
+        this.handleCurrentChange();
     },
 };
 </script>

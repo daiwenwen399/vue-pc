@@ -23,9 +23,13 @@ import store from '../store'
 // 创建未登录用户的唯一id
 const userTempId = getUserTempId();
 
+// 通过其值来区分运行环境
+// console.log(process.env.NODE_ENV); // development  production
+const prefixUrl = process.env.NODE_ENV === "development" ? "/" : "http://182.92.128.115/";
+
 const instance = axios.create({
     // /就是当前服务器的地址
-    baseURL: "/api", // 公共的基础路径
+    baseURL: `${prefixUrl}api`, // 公共的基础路径
     headers: {
         // 请求头
     },
