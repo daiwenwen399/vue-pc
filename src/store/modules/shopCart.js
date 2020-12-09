@@ -9,7 +9,14 @@ export default {
     state: {
         cartList: [], // 所有购物车数据
     },
-    getters: {},
+    getters: {
+        isAllCheck(state) {
+            return state.cartList.every((value) => {
+                if (value.isChecked) return true
+                return false
+            })
+        }
+    },
     actions: {
         // 获取购物车列表
         async getCartList({ commit }) {
@@ -31,6 +38,20 @@ export default {
             await reqDelCart(skuId);
             commit('DEL_CART', skuId);
         },
+        // 全选
+        allCheck({ commit, state, dispatch }, newVal) {
+            console.log(commit);
+            let promises = [];
+            const isChecked = newVal ? 1 : 0;
+            state.cartList.forEach((cart) => {
+                if (cart.isChecked !== isChecked) {
+                    const promise = dispatch('checkCart', { skuId: cart.skuId, isChecked })
+                    promises.push(promise)
+                }
+            });
+            // 返回promise对象(只有所有dispatch都成功了才成功, 否则就是失败的)
+            return Promise.all(promises)
+        }
     },
     mutations: {
         GET_CART_LIST(state, cartList) {

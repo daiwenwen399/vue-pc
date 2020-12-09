@@ -77,12 +77,7 @@
         </div>
         <div class="cart-tool">
             <div class="select-all">
-                <input
-                    class="chooseAll"
-                    type="checkbox"
-                    v-model="isAllCheck"
-                    @click="allCheck(isAllCheck)"
-                />
+                <input class="chooseAll" type="checkbox" v-model="checkAll" />
                 <span>全选</span>
             </div>
             <div class="option">
@@ -100,7 +95,7 @@
                     <i class="summoney">{{ totalPrice }}</i>
                 </div>
                 <div class="sumbtn">
-                    <a class="sum-btn" href="###" target="_blank">结算</a>
+                    <a class="sum-btn" @click="toPay">结算</a>
                 </div>
             </div>
         </div>
@@ -108,19 +103,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
     name: "ShopCart",
-    data() {
-        return {
-            isAllCheck: 0,
-        };
-    },
     computed: {
         ...mapState({
             cartList: (state) => state.shopCart.cartList,
         }),
+        ...mapGetters(["isAllCheck"]),
         // 选择的商品数量
         checkNum() {
             return this.cartList
@@ -133,6 +124,20 @@ export default {
                 .filter((cart) => cart.isChecked)
                 .reduce((p, c) => p + c.skuPrice * c.skuNum, 0);
         },
+        // 全选按钮
+        checkAll: {
+            get() {
+                return this.isAllCheck;
+            },
+            async set(newVal) {
+                try {
+                    await this.allCheck(newVal);
+                    this.getCartList();
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+        },
     },
     methods: {
         ...mapActions([
@@ -141,6 +146,7 @@ export default {
             "delCart",
             "checkCart",
             "delAllCheck",
+            "allCheck",
         ]),
         // 更新商品数量
         async updateCount(skuId, skuNum) {
@@ -172,20 +178,9 @@ export default {
             await this.checkCart({ skuId, isChecked });
             this.getCartList();
         },
-        // 全选按钮
-        allCheck(isAllCheck) {
-            /* if (isAllCheck) {
-                isAllCheck = 1;
-            } else {
-                isAllCheck = 0;
-            } */
-            this.cartList.map((cart) => {
-                if (cart.isChecked !== isAllCheck) {
-                    console.log(cart.skuId, isAllCheck);
-                    // this.checkCart(cart.skuId, isAllCheck);
-                }
-                return cart;
-            });
+        // 去支付页面
+        toPay() {
+            this.$router.push("/trade");
         },
     },
     mounted() {

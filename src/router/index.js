@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@store'
 
 import Home from '@views/Home'
 import Login from '@views/Login'
@@ -8,6 +9,12 @@ import Search from '@views/Search'
 import Detail from '@views/Detail'
 import AddCartSuccess from '@views/AddCartSuccess'
 import ShopCart from '@views/ShopCart'
+import Trade from '@views/Trade'
+import Pay from '@views/Pay'
+import PaySuccess from '@views/PaySuccess'
+import Center from '@views/Center'
+import MyOrder from '@views/Center/myOrder'
+import Groupbuy from '@views/Center/Groupbuy'
 
 // 重写push\replace方法解决重复点击报错问题
 const newPush = VueRouter.prototype.push;
@@ -34,7 +41,9 @@ VueRouter.prototype.replace = function (location, oncomplete, onAbort) {
 // 使用插件
 Vue.use(VueRouter)
 
-export default new VueRouter({
+const router = new VueRouter({
+    // 路由模式
+    mode: "history",
     routes: [
         {
             path: '/',
@@ -77,5 +86,50 @@ export default new VueRouter({
             path: "/shopCart",
             component: ShopCart,
         },
+        {
+            name: "trade",
+            path: "/trade",
+            component: Trade,
+        },
+        {
+            name: "pay",
+            path: "/pay",
+            component: Pay,
+        },
+        {
+            name: "paySuccess",
+            path: "/paySuccess",
+            component: PaySuccess,
+        },
+        {
+            name: "center",
+            path: "/center",
+            component: Center,
+            children: [
+                {
+                    name: "myOrder",
+                    path: "myOrder",
+                    component: MyOrder
+                },
+                {
+                    name: "groupBuy",
+                    path: "groupBuy",
+                    component: Groupbuy
+                },
+                {
+                    path: '',
+                    redirect: '/center/myOrder'
+                },
+            ]
+        },
     ],
 })
+
+const authorityList = ['/trade', '/pay', '/paySuccess', '/center']
+
+router.beforeEach((to, from, next) => {
+    if (authorityList.indexOf(to.path) > -1 && !store.state.user.token) next("/login")
+    else next()
+})
+
+export default router
